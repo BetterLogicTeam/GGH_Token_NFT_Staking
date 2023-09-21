@@ -1,0 +1,59 @@
+.end_canvas{
+    background: #fff3;
+    border: 2px solid #fff3;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #fff;
+    display: flex;
+    font-family: Bakbak One;
+    font-size: 16px;
+    line-height: 22px;
+    overflow: hidden;
+    padding: 12px 30px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+}
+.icon_canvas{
+    font-weight: 600 !important;
+    font-size: 22px !important;
+}
+.canvas_back{
+    background-color: #1b1848f7 !important;
+}
+.small_Status{
+    font-size: 13px !important;
+    text-align: start !important;
+    color: white !important;
+}
+.dis_small{
+    background: rgba(254, 178, 178, 0.16);
+    color: rgba(255, 172, 172, 0.849) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    width: fit-content !important;
+}
+.mata_mask{
+  
+    border: 1px solid rgb(75, 81, 159);
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: white !important;
+  padding: 14px 6px 14px 6px ;
+  background-color: #1b1b3750 !important;
+  border-radius: 8px !important;
+}
+.mata_mask:hover{
+   background-color: transparent !important;
+ 
+    
+   
+ }
+.popular_text{
+    
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    background: rgba(154, 230, 180, 0.16);
+    color:#9ae6b4;
+    width: max-content !important;
+}

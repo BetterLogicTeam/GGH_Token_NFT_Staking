@@ -58,8 +58,8 @@ function Lockestake({ setShoww, check }) {
           toast.error("Please Enter Amount First!");
           setspinner(false);
         } else {
-          if (getValue < 100000) {
-            toast.error("Minimum Staking Amount 100000!");
+          if (getValue < 500) {
+            toast.error("Minimum Staking Amount 500!");
             setspinner(false);
           } else {
             if (acc == null) {
@@ -86,7 +86,7 @@ function Lockestake({ setShoww, check }) {
                 );
               }
 
-              let stakingValue = getValue*1000000000;
+              let stakingValue = getValue*1000000000000000000;
 
               console.log("stakingValue", stakingValue);
 
@@ -156,7 +156,7 @@ function Lockestake({ setShoww, check }) {
     }
   };
   const checkBalance = async () => {
-    const webSupply = new Web3("https://bsc.publicnode.com");
+    const webSupply = new Web3("https://bsc-testnet.publicnode.com");
 
     let tokenContractOf = new webSupply.eth.Contract(Token_Abi, TokenAddress);
     let stakingContractOf = new webSupply.eth.Contract(
@@ -166,7 +166,7 @@ function Lockestake({ setShoww, check }) {
 
     if (acc != null) {
       let blanceOf = await tokenContractOf.methods.balanceOf(acc).call();
-      blanceOf=blanceOf/1000000000;
+      blanceOf=blanceOf/1000000000000000000;
 
 
       // blanceOf = blanceOf.slice(0, 12);
@@ -201,7 +201,7 @@ function Lockestake({ setShoww, check }) {
 
   const TotalAmount = async () => {
     try {
-      const webSupply = new Web3("https://bsc.publicnode.com");
+      const webSupply = new Web3("https://bsc-testnet.publicnode.com");
       const webSupply1 = new Web3("https://eth-mainnet.public.blastapi.io");
 
       let stakingContractOf = new webSupply.eth.Contract(Staking_Abi, Staking);
@@ -343,7 +343,7 @@ function Lockestake({ setShoww, check }) {
             <div className="container-fluid p-0  mt-5">
               <div className="row justify-content-center">
                 <div className="col-lg-5 all_main p-0">
-                  <h3 class="staking__selector__heading">Stake GGH</h3>
+                  <h3 class="staking__selector__heading">Stake GGH Token</h3>
           
                   <div className="first_box mt-4  px-2">
                     <div className="munt_box d-flex justify-content-between">
@@ -354,7 +354,7 @@ function Lockestake({ setShoww, check }) {
                     </div>
                     <div className="typ_area border ">
                       <div className="mx_buttn str_tp_dollar text-cenetr ">
-                    GGH
+                      $GGH
                       </div>
                       <input
                         className="ariia"
@@ -473,7 +473,7 @@ function Lockestake({ setShoww, check }) {
 
                   <div className="last mt-4">
                     <p className="fon m-0 py-2">
-                      Locking {getValue} GGH for {selectDays} Days
+                      Locking {getValue} $GGH for {selectDays} Days
                     </p>
                   </div>
                 </div>
@@ -564,7 +564,7 @@ function Lockestake({ setShoww, check }) {
             <div className="container-fluid p-0  mt-5">
               <div className="row justify-content-center">
                 <div className="col-lg-5 all_main p-0">
-                  <h3 class="staking__selector__heading">Stake GGH</h3>
+                  <h3 class="staking__selector__heading">Stake GGH Token & GGH_NFT</h3>
 
                   <div className="first_box mt-4  px-2">
                     <div className="munt_box d-flex justify-content-between">
@@ -575,7 +575,7 @@ function Lockestake({ setShoww, check }) {
                     </div>
                     <div className="typ_area border ">
                       <div className="mx_buttn str_tp_dollar text-cenetr ">
-                       GGH
+                      $GGH
                       </div>
                       <input
                         className="ariia"

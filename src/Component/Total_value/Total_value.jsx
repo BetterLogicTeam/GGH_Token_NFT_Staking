@@ -15,7 +15,7 @@ function Total_value({setShoww}) {
   const TotalAmount =async()=>{
     try{
       const webSupply = new Web3(
-        "https://bsc.publicnode.com"
+        "https://bsc-testnet.publicnode.com"
     );
 
 
@@ -29,8 +29,8 @@ function Total_value({setShoww}) {
             .call();
             console.log("Users",UserInformation.DepositeToken);
 
-           let UserInformationdata=(UserInformation.DepositeToken)/1000000000
-           let WithdrawRewardAmount=(UserInformation.WithdrawReward)/1000000000
+           let UserInformationdata=(UserInformation.DepositeToken)/1000000000000000000
+           let WithdrawRewardAmount=(UserInformation.WithdrawReward)/1000000000000000000
 
            setWithdrawReward(parseFloat(WithdrawRewardAmount).toFixed(3))
             settotalUserAmount(UserInformationdata)

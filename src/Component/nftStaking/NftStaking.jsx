@@ -23,7 +23,7 @@ export default function NftStaking({ setShoww }) {
   const TotalAmount =async()=>{
     try{
       const webSupply = new Web3(
-        "https://bsc.publicnode.com"
+        "https://bsc-testnet.publicnode.com"
     );
 
 
@@ -37,8 +37,8 @@ export default function NftStaking({ setShoww }) {
             .call();
             console.log("Users",UserInformation.DepositeToken);
 
-           let UserInformationdata=(UserInformation[0])/1000000000
-           let WithdrawRewardAmount=(UserInformation[1])/1000000000
+           let UserInformationdata=(UserInformation[0])/1000000000000000000
+           let WithdrawRewardAmount=(UserInformation[1])/1000000000000000000
 
            setWithdrawReward(parseFloat(WithdrawRewardAmount).toFixed(3))
             settotalUserAmount(parseFloat(UserInformationdata).toFixed(3))

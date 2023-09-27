@@ -21,7 +21,7 @@ export default function Mylock({ setShoww, check }) {
 
     const checkBalance = async () => {
         const webSupply = new Web3(
-            "https://bsc.publicnode.com"
+            "https://bsc-testnet.publicnode.com"
         );
         let stakingContractOf
         if (check == "one") {
@@ -48,8 +48,8 @@ export default function Mylock({ setShoww, check }) {
                     let date = moment(Number(array3[i]) * 1000).format("DD-MM-YYYY");
                     let obj = {
                         address: acc,
-                        amount: (array1[i])/1000000000,
-                        unLoackTime: Number(currentTimestamp) + Number(86400) * array2[i],
+                        amount: (array1[i])/1000000000000000000,
+                        unLoackTime: Number(currentTimestamp) + Number(60) * array2[i],
                         LockTime: date,
                     };
                     myArray = [...myArray, obj];
@@ -91,8 +91,8 @@ export default function Mylock({ setShoww, check }) {
                      
                         let obj = {
                             address: acc,
-                            amount: (items[0])/1000000000,
-                            unLoackTime: Number(items[3]) + (Number(items[2])* Number(86400) ) ,
+                            amount: (items[0])/1000000000000000000,
+                            unLoackTime: Number(items[3]) + (Number(items[2])* Number(60) ) ,
                             LockTime: date,
                         };
                         myArray = [...myArray, obj];

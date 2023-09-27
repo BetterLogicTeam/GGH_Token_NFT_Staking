@@ -202,7 +202,7 @@ function Lockestake({ setShoww, check }) {
   const TotalAmount = async () => {
     try {
       const webSupply = new Web3("https://bsc-testnet.publicnode.com");
-      const webSupply1 = new Web3("https://eth-mainnet.public.blastapi.io");
+      const webSupply1 = new Web3("https://polygon-mumbai-bor.publicnode.com");
 
       let stakingContractOf = new webSupply.eth.Contract(Staking_Abi, Staking);
       let nFTContractOf = new webSupply.eth.Contract(
@@ -246,8 +246,8 @@ function Lockestake({ setShoww, check }) {
 
         for (let i = 0; i < UserNFTs_Length; i++) {
           let nftLink = await axios.get(
-            `https://teal-high-elephant-254.mypinata.cloud/ipfs/QmRN9mG46UtACjCmtwjnqz2pmDei2tUP6zB23NpFw8wk8C/${UserNFTs[i]
-            }.png`
+            `https://greengrasshopper.mypinata.cloud/ipfs/Qmd6opNhSJS7TD5gUUhkf4nKz5ogGiTqaLC1B3CReZaAGN/Green%20Grass%20Hopper/${UserNFTs[i]
+            }.jpg`
           );
           let isNFTStaked = await stakingContractOf.methods.isNFTStaked(UserNFTs[i]).call();
 

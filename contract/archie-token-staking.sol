@@ -1,6 +1,18 @@
+/**
+ *Submitted for verification at BscScan.com on 2023-09-28
+*/
+
+/**
+ *Submitted for verification at testnet.bscscan.com on 2023-09-27
+*/
+
+/**
+ *Submitted for verification at BscScan.com on 2023-05-18
+*/
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.0;
-interface IARC20 {
+interface IBEP20 {
     function transfer(address to, uint256 value) external returns (bool);
 
     function approve(address spender, uint256 value) external returns (bool);
@@ -307,9 +319,9 @@ contract Ownable   {
 }
 
 
-contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
+contract GGH_token_staking is Ownable,Pausable,ReentrancyGuard{
     using SafeMath for uint256;
-    IARC20 public Token;
+    IBEP20 public Token;
 
     struct userInfo {
         uint256 DepositeToken;
@@ -331,19 +343,19 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
     mapping(address =>  userInfo) public Users;
     mapping(address => bool) public isSpam;
 
-    uint256 public minimumDeposit = 100000E9;
-    uint256 public deductionPercentage=10000000000; //10%
+    uint256 public minimumDeposit = 500e18;
+    uint256 public deductionPercentage=10e18; //10%
     
     uint256 public time = 1 days;
 
-    constructor(IARC20 _token)  {
+    constructor(IBEP20 _token)  {
         Token = _token;
       
 
-        allocation[30]=1000000000; //1 %
-        allocation[90] = 4500000000; //4.5 %
-        allocation[180] = 12000000000; //12 %
-        allocation[360] = 30000000000; //30
+        allocation[30]=1000000000000000000; //1 %
+        allocation[90] = 4500000000000000000; //4.5 %
+        allocation[180] = 12000000000000000000; //12 %
+        allocation[360] = 30000000000000000000; //30 %
         
     }
 
@@ -370,7 +382,7 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
         for(uint256 z=0 ; z< depositeToken[_add].length;z++){
         uint256 lockTime = depositetime[_add][z]+(lockabledays[_add][z]*time);
         if(block.timestamp > lockTime ){
-        reward = (allocation[lockabledays[_add][z]].mul(depositeToken[_add][z]).div(100)).div(1e9);
+        reward = (allocation[lockabledays[_add][z]].mul(depositeToken[_add][z]).div(100)).div(1e18);
         Reward += reward;
         }
     }
@@ -390,7 +402,7 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
         
         uint256 lockTime =depositetime[msg.sender][_index[z]]+(lockabledays[msg.sender][_index[z]].mul(time));
         if(block.timestamp > lockTime ){
-        uint256 reward = (allocation[lockabledays[msg.sender][_index[z]]].mul(depositeToken[msg.sender][_index[z]]).div(100)).div(1e9);
+        uint256 reward = (allocation[lockabledays[msg.sender][_index[z]]].mul(depositeToken[msg.sender][_index[z]]).div(100)).div(1e18);
         
         Users[msg.sender].WithdrawAbleReward += reward;
         Users[msg.sender].DepositeToken -= depositeToken[msg.sender][_index[z]];
@@ -404,7 +416,7 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
          uint256 a;	
         if(deductionPercentage>0)	
         {	
-         a =(((depositeToken[msg.sender][_index[z]]).mul(deductionPercentage)).div(100)).div(1e9);	
+         a =(((depositeToken[msg.sender][_index[z]]).mul(deductionPercentage)).div(100)).div(1e18);	
          }
         uint256 b =depositeToken[msg.sender][_index[z]]-a;
         Users[msg.sender].WithdrawDepositeAmount += b;
@@ -445,11 +457,11 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
  
     
 
-   function emergencyWithdrawtokens(IARC20 _token,uint256 _amount) external onlyOwner {
+   function emergencyWithdrawtokens(IBEP20 _token,uint256 _amount) external onlyOwner {
          _token.transfer(msg.sender, _amount);
     }
 
-    function emergencyWithdrawARC(uint256 Amount) external onlyOwner {
+    function emergencyWithdrawBNB(uint256 Amount) external onlyOwner {
         payable(msg.sender).transfer(Amount);
     }
 
@@ -473,7 +485,7 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
         _unpause();	
     }
 
-    function changeToken(IARC20 addr) public onlyOwner{
+    function changeToken(IBEP20 addr) public onlyOwner{
         Token=addr;
         
     }
@@ -484,7 +496,7 @@ contract Archie_token_staking is Ownable,Pausable,ReentrancyGuard{
     
 	
     receive() external payable{	
-//  receive the arc	
+//  receive the BNB	
 } 	
 
     

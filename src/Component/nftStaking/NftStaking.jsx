@@ -23,7 +23,7 @@ export default function NftStaking({ setShoww }) {
   const TotalAmount =async()=>{
     try{
       const webSupply = new Web3(
-        "https://bsc-testnet.publicnode.com"
+        "https://bsc.publicnode.com"
     );
 
 

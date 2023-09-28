@@ -1,3 +1,7 @@
+/**
+ *Submitted for verification at BscScan.com on 2023-09-28
+*/
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
@@ -66,7 +70,7 @@ abstract contract ReentrancyGuard {
         _status = _NOT_ENTERED;
     }
 }
-interface IARC721A {
+interface IBEP721A {
     /**
      * The caller must own the token or be an approved operator.
      */
@@ -335,7 +339,7 @@ interface IARC721A {
     event ConsecutiveTransfer(uint256 indexed fromTokenId, uint256 toTokenId, address indexed from, address indexed to);
 }
 
-interface IARC20 {
+interface IBEP20 {
     function transfer(address to, uint256 value) external returns (bool);
 
     function approve(address spender, uint256 value) external returns (bool);
@@ -504,8 +508,8 @@ contract Ownable   {
 
 contract NFT_Staking is Ownable,ReentrancyGuard{
     using SafeMath for uint256;
-    IARC20 public Token;
-    // IARC721A public NFT;
+    IBEP20 public Token;
+    // IBEP721A public NFT;
 
     struct Stake{
         uint _tokens;
@@ -514,130 +518,82 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
         uint _stakeTime;
     }
     
-    uint256 public minimumERC20Deposit = 100000e9;
+    uint256 public minimumERC20Deposit = 500e18; //500
     uint256 public time = 1 days;
-    uint256 public minimumNFT = 25;
-    uint256 public maximumNFT = 1000;
-    uint256 public deductionPercentage=10000000000;  //10%
+    uint256 public minimumNFT = 1;
+    uint256 public maximumNFT= 10;
+  
+    uint256 public deductionPercentage=10e18;  //10%
 
     //clubs information ////////////////////
 
 
-    //elite club
-    uint256 public ELITE_CLUB_NFTs_count=25;
-    uint256 public elite30reward=1250000000;  //1.25 %
-    uint256 public elite90reward=5250000000;   //5.25 %
-    uint256 public elite180reward=13500000000;   //13.5%
-    uint256 public elite360reward=33000000000;   //33 %
+    //plan_one_ club
+    uint256 public plan1_count=1;
+    uint256 public plan_one_30reward=1250000000000000000;  //1.25 %
+    uint256 public plan_one_90reward=5250000000000000000;   //5.25 %
+    uint256 public plan_one_180reward=13500000000000000000;   //13.5%
+    uint256 public plan_one_360reward=33000000000000000000;   //33 %
 
-    function setelite_Counts_reward(uint256 _elitecount,uint256 _elite30reward,uint256 _elite90reward,uint256 _elite180reward,uint256 _elite360reward) external onlyOwner{
-        ELITE_CLUB_NFTs_count=_elitecount;
-        elite30reward=_elite30reward;
-        elite90reward=_elite90reward;
-        elite180reward=_elite180reward;
-        elite360reward=_elite360reward;
+    function setplan_one__Counts_reward(uint256 _plan_one_count,uint256 _plan_one_30reward,uint256 _plan_one_90reward,uint256 _plan_one_180reward,uint256 _plan_one_360reward) external onlyOwner{
+        plan1_count=_plan_one_count;
+        plan_one_30reward=_plan_one_30reward;
+        plan_one_90reward=_plan_one_90reward;
+        plan_one_180reward=_plan_one_180reward;
+        plan_one_360reward=_plan_one_360reward;
     }
 
 
-//top gun club
-    uint256 public TOP_GUN_CLUB_NFTs_count=50;
-    uint256 public topgun30reward=1500000000;    //1.5 %
-    uint256 public topgun90reward=6000000000;     // 6 %
-    uint256 public topgun180reward=15000000000;     //15 %
-    uint256 public topgun360reward=36000000000;    //36 %
+//plan two club
+    uint256 public plan2_count=2;
+    uint256 public plan_two_30reward=1500000000000000000;    //1.5 %
+    uint256 public plan_two_90reward=6000000000000000000;     // 6 %
+    uint256 public plan_two_180reward=15000000000000000000;     //15 %
+    uint256 public plan_two_360reward=36000000000000000000;    //36 %
 
-     function settopgun_Counts_reward(uint256 _topguncount,uint256 _topgun30reward,uint256 _topgun90reward,uint256 _topgun180reward,uint256 _topgun360reward) external onlyOwner{
-        TOP_GUN_CLUB_NFTs_count=_topguncount;
-        topgun30reward=_topgun30reward;
-        topgun90reward=_topgun90reward;
-        topgun180reward=_topgun180reward;
-        topgun360reward=_topgun360reward;
+     function setplan_two__Counts_reward(uint256 _plan_two_count,uint256 _plan_two_30reward,uint256 _plan_two_90reward,uint256 _plan_two_180reward,uint256 _plan_two_360reward) external onlyOwner{
+        plan2_count=_plan_two_count;
+        plan_two_30reward=_plan_two_30reward;
+        plan_two_90reward=_plan_two_90reward;
+        plan_two_180reward=_plan_two_180reward;
+        plan_two_360reward=_plan_two_360reward;
     }
 
 
-    //ADMIRALS CLUB
+    //plan_three_ CLUB
 
-     uint256 public ADMIRALS_CLUB_NFTs_count=75;
-    uint256 public ADMIRALS30reward=1750000000;  //1.75 %
-    uint256 public ADMIRALS90reward=6750000000;   //6.75 %
-    uint256 public ADMIRALS180reward=16500000000;  //16.5 %
-    uint256 public ADMIRALS360reward=39000000000;   // 39 %
+     uint256 public plan3_count=5;
+    uint256 public plan_three_30reward=1750000000000000000;  //1.75 %
+    uint256 public plan_three_90reward=6750000000000000000;   //6.75 %
+    uint256 public plan_three_180reward=16500000000000000000;  //16.5 %
+    uint256 public plan_three_360reward=39000000000000000000;   // 39 %
 
-     function setADMIRALS_Counts_reward(uint256 _admiralscount,uint256 _ADMIRALS30reward,uint256 _ADMIRALS90reward,uint256 _ADMIRALS180reward,uint256 _ADMIRALS360reward) external onlyOwner{
-        ADMIRALS_CLUB_NFTs_count=_admiralscount;
-        ADMIRALS30reward=_ADMIRALS30reward;
-        ADMIRALS90reward=_ADMIRALS90reward;
-        ADMIRALS180reward=_ADMIRALS180reward;
-        ADMIRALS360reward=_ADMIRALS360reward;
+     function setplan_three__Counts_reward(uint256 _plan_three_count,uint256 _plan_three_30reward,uint256 _plan_three_90reward,uint256 _plan_three_180reward,uint256 _plan_three_360reward) external onlyOwner{
+        plan3_count=_plan_three_count;
+        plan_three_30reward=_plan_three_30reward;
+        plan_three_90reward=_plan_three_90reward;
+        plan_three_180reward=_plan_three_180reward;
+        plan_three_360reward=_plan_three_360reward;
     }
 
 
-   // CLUB 777
+   // plan_four
 
-    uint256 public CLUB777_NFTs_count=101;
-    uint256 public CLUB777_30reward=2000000000;  //2 %
-    uint256 public CLUB777_90reward=7500000000; //7.5 %
-    uint256 public CLUB777_180reward=18000000000; //18 %
-    uint256 public CLUB777_360reward=42000000000; //42 %
+    uint256 public plan4_count=10;
+    uint256 public plan_four_30reward=2000000000000000000;  //2 %
+    uint256 public plan_four_90reward=7500000000000000000; //7.5 %
+    uint256 public plan_four_180reward=18000000000000000000; //18 %
+    uint256 public plan_four_360reward=42000000000000000000; //42 %
 
-     function setCLUB777_Counts_reward(uint256 _CLUB777_NFTs_count,uint256 _CLUB777_30reward,uint256 _CLUB777_90reward,uint256 _CLUB777_180reward,uint256 _CLUB777_360reward) external onlyOwner{
-        CLUB777_NFTs_count=_CLUB777_NFTs_count;
-        CLUB777_30reward=_CLUB777_30reward;
-        CLUB777_90reward=_CLUB777_90reward;
-        CLUB777_180reward=_CLUB777_180reward;
-        CLUB777_360reward=_CLUB777_360reward;
+     function setplan_four_Counts_reward(uint256 _plan4_count,uint256 _plan_four_30reward,uint256 _plan_four_90reward,uint256 _plan_four_180reward,uint256 _plan_four_360reward) external onlyOwner{
+        plan4_count=_plan4_count;
+        plan_four_30reward=_plan_four_30reward;
+        plan_four_90reward=_plan_four_90reward;
+        plan_four_180reward=_plan_four_180reward;
+        plan_four_360reward=_plan_four_360reward;
     }
 
-      // HIGH ROLLERS Club
-
-    uint256 public HIGH_ROLLERS_NFTs_count=150;
-    uint256 public HIGH_ROLLERS_30reward=2250000000;  //2.25 %
-    uint256 public HIGH_ROLLERS_90reward=8250000000; //8.25 %
-    uint256 public HIGH_ROLLERS_180reward=19500000000; //19.5 %
-    uint256 public HIGH_ROLLERS_360reward=45000000000; //45 %
-
-     function setHIGH_ROLLERS_Counts_reward(uint256 _HIGH_ROLLERS_NFTs_count,uint256 _HIGH_ROLLERS_30reward,uint256 _HIGH_ROLLERS_90reward,uint256 _HIGH_ROLLERS_180reward,uint256 _HIGH_ROLLERS_360reward) external onlyOwner{
-        HIGH_ROLLERS_NFTs_count=_HIGH_ROLLERS_NFTs_count;
-        HIGH_ROLLERS_30reward=_HIGH_ROLLERS_30reward;
-        HIGH_ROLLERS_90reward=_HIGH_ROLLERS_90reward;
-        HIGH_ROLLERS_180reward=_HIGH_ROLLERS_180reward;
-        HIGH_ROLLERS_360reward=_HIGH_ROLLERS_360reward;
-    }
-
-    //META MASTER Club
-
-     uint256 public META_MASTER_NFTs_count=200;
-    uint256 public META_MASTER_30reward=2750000000; //2.75 %
-    uint256 public META_MASTER_90reward=9750000000; // 9.75 %
-    uint256 public META_MASTER_180reward=22500000000; //22.5 %
-    uint256 public META_MASTER_360reward=51000000000; //51 %
-
-     function setMETA_MASTER_Counts_reward(uint256 _META_MASTER_NFTs_count,uint256 _META_MASTER_30reward,uint256 _META_MASTER_90reward,uint256 _META_MASTER_180reward,uint256 _META_MASTER_360reward) external onlyOwner{
-        META_MASTER_NFTs_count=_META_MASTER_NFTs_count;
-        META_MASTER_30reward=_META_MASTER_30reward;
-        META_MASTER_90reward=_META_MASTER_90reward;
-        META_MASTER_180reward=_META_MASTER_180reward;
-        META_MASTER_360reward=_META_MASTER_360reward;
-    }
-
-
-  //ARCHIE EXECUTIVE club
-
-   uint256 public ARCHIE_EXECUTIVE_NFTs_count=500;
-    uint256 public ARCHIE_EXECUTIVE_30reward=3000000000; //3 %
-    uint256 public ARCHIE_EXECUTIVE_90reward=10500000000; // 10.5 %
-    uint256 public ARCHIE_EXECUTIVE_180reward=24000000000; // 24 %
-    uint256 public ARCHIE_EXECUTIVE_360reward=54000000000; //54 %
-
-     function setARCHIE_EXECUTIVE_Counts_reward(uint256 _ARCHIE_EXECUTIVE_NFTs_count,uint256 _ARCHIE_EXECUTIVE_30reward,uint256 _ARCHIE_EXECUTIVE_90reward,uint256 _ARCHIE_EXECUTIVE_180reward,uint256 _ARCHIE_EXECUTIVE_360reward) external onlyOwner{
-        ARCHIE_EXECUTIVE_NFTs_count=_ARCHIE_EXECUTIVE_NFTs_count;
-        ARCHIE_EXECUTIVE_30reward=_ARCHIE_EXECUTIVE_30reward;
-        ARCHIE_EXECUTIVE_90reward=_ARCHIE_EXECUTIVE_90reward;
-        ARCHIE_EXECUTIVE_180reward=_ARCHIE_EXECUTIVE_180reward;
-        ARCHIE_EXECUTIVE_360reward=_ARCHIE_EXECUTIVE_360reward;
-    }
-
-
+   
 
 
     mapping (address => Stake[]) public stakesOf;
@@ -650,7 +606,7 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
 
     event Deposite(address indexed to,address indexed From, uint256 amount, uint256 day,uint256 time);
 
-    constructor(IARC20 _tokenaddr)  {
+    constructor(IBEP20 _tokenaddr)  {
         Token = _tokenaddr;
 
         _paused = false;
@@ -664,6 +620,7 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
         address caller = msg.sender; // to save gas fee
         require(isSpam[msg.sender]==false,"Account is spam!");
         require(_tokenIDs.length >= minimumNFT && _tokenIDs.length <= maximumNFT, "length is not valid");
+        require(_lockableDays==30||_lockableDays==90||_lockableDays==180||_lockableDays==360,"Invalid Days selection");
         require(_amount >= minimumERC20Deposit, "Invalid amount");
         for (uint256 i; i < _tokenIDs.length; i++){
             require(isNFTStaked[_tokenIDs[i]] == false,"You already staked these nft ids!");
@@ -713,7 +670,7 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
         else{
         if(deductionPercentage>0)	
         {	
-            deductionamount = (_tokensCount.mul(deductionPercentage).div(100)).div(1e9);
+            deductionamount = (_tokensCount.mul(deductionPercentage).div(100)).div(1e18);
             totalWithdraw = _userData._tokens - deductionamount; 
          }
          else
@@ -749,147 +706,99 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
 
         // calculate reward based on the given conditions.
        
-        if(_NFTsCount >= ARCHIE_EXECUTIVE_NFTs_count){
-            if(_daysCount == 30){
-              reward = (_tokensCount.mul(ARCHIE_EXECUTIVE_30reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 90){
-               reward = (_tokensCount.mul(ARCHIE_EXECUTIVE_90reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 180){
-               reward = (_tokensCount.mul(ARCHIE_EXECUTIVE_180reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 360){
-                reward = (_tokensCount.mul(ARCHIE_EXECUTIVE_360reward).div(100)).div(1e9);
-            }
-        }
       
-        else if(_NFTsCount >= META_MASTER_NFTs_count){
-            if(_daysCount == 30){
-                
-                reward = (_tokensCount.mul(META_MASTER_30reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 90){
-             
-                reward = (_tokensCount.mul(META_MASTER_90reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 180){
-               
-                reward = (_tokensCount.mul(META_MASTER_180reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 360){
-                reward = (_tokensCount.mul(META_MASTER_360reward).div(100)).div(1e9);
-            }
-        }
-     
-        else if(_NFTsCount >= HIGH_ROLLERS_NFTs_count){
-            if(_daysCount == 30){
-                reward = (_tokensCount.mul(HIGH_ROLLERS_30reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 90){
-               
-                reward = (_tokensCount.mul(HIGH_ROLLERS_90reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 180){
-                reward = (_tokensCount.mul(HIGH_ROLLERS_180reward).div(100)).div(1e9);
-            }
-            else if (_daysCount == 360){
-                
-                reward = (_tokensCount.mul(HIGH_ROLLERS_360reward).div(100)).div(1e9);
-            }
-        }
         
-        else if(_NFTsCount >= CLUB777_NFTs_count){
+         if(_NFTsCount >= plan4_count){
             if(_daysCount == 30){
                
-                reward = (_tokensCount.mul(CLUB777_30reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_four_30reward).div(100)).div(1e18);
             }
             else if (_daysCount == 90){
-                reward = (_tokensCount.mul(CLUB777_90reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_four_90reward).div(100)).div(1e18);
             }
             else if (_daysCount == 180){
              
-                reward = (_tokensCount.mul(CLUB777_180reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_four_180reward).div(100)).div(1e18);
             }
             else if (_daysCount == 360){
               
-                reward = (_tokensCount.mul(CLUB777_360reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_four_360reward).div(100)).div(1e18);
             }
         }
        
-        else if(_NFTsCount >= ADMIRALS_CLUB_NFTs_count){
+        else if(_NFTsCount >= plan3_count){
             if(_daysCount == 30){
               
-                reward = (_tokensCount.mul(ADMIRALS30reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_three_30reward).div(100)).div(1e18);
             }
             else if (_daysCount == 90){
                
-                reward = (_tokensCount.mul(ADMIRALS90reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_three_90reward).div(100)).div(1e18);
             }
             else if (_daysCount == 180){
                
-                reward = (_tokensCount.mul(ADMIRALS180reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_three_180reward).div(100)).div(1e18);
             }
             else if (_daysCount == 360){
                
-                reward = (_tokensCount.mul(ADMIRALS360reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_three_360reward).div(100)).div(1e18);
             }
         }
      
-        else if(_NFTsCount >= TOP_GUN_CLUB_NFTs_count){
+        else if(_NFTsCount >= plan2_count){
             if(_daysCount == 30){
            
-                reward = (_tokensCount.mul(topgun30reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_two_30reward).div(100)).div(1e18);
             }
             else if (_daysCount == 90){
                 
-                reward = (_tokensCount.mul(topgun90reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_two_90reward).div(100)).div(1e18);
             }
             else if (_daysCount == 180){
             
-                reward = (_tokensCount.mul(topgun180reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_two_180reward).div(100)).div(1e18);
             }
             else if (_daysCount == 360){
-                reward = (_tokensCount.mul(topgun360reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_two_360reward).div(100)).div(1e18);
             }
         }
       
-        else if(_NFTsCount >= ELITE_CLUB_NFTs_count){
+        else if(_NFTsCount >= plan1_count){
 
             if(_daysCount == 30){
                
-                reward = (_tokensCount.mul(elite30reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_30reward).div(100)).div(1e18);
             }
             else if (_daysCount == 90){
                
-                reward = (_tokensCount.mul(elite90reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_90reward).div(100)).div(1e18);
             }
             else if (_daysCount == 180){
                
-                reward = (_tokensCount.mul(elite180reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_180reward).div(100)).div(1e18);
             }
             else if (_daysCount == 360){
               
-                reward = (_tokensCount.mul(elite360reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_360reward).div(100)).div(1e18);
             }
         }
       
         else {
              if(_daysCount == 30){
                
-                reward = (_tokensCount.mul(elite30reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_30reward).div(100)).div(1e18);
             }
             else if (_daysCount == 90){
                
-                reward = (_tokensCount.mul(elite90reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_90reward).div(100)).div(1e18);
             }
             else if (_daysCount == 180){
                
-                reward = (_tokensCount.mul(elite180reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_180reward).div(100)).div(1e18);
             }
             else if (_daysCount == 360){
               
-                reward = (_tokensCount.mul(elite360reward).div(100)).div(1e9);
+                reward = (_tokensCount.mul(plan_one_360reward).div(100)).div(1e18);
             }
         }
     }
@@ -912,10 +821,10 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
         return (commulativeDepositTokensOf[_addr], commulativeWithdrawTokensOf[_addr]);
     }
 
-    function emergencyWithdraw(IARC20 _token,uint256 _amount) external onlyOwner {
+    function emergencyWithdraw(IBEP20 _token,uint256 _amount) external onlyOwner {
          _token.transfer(msg.sender, _amount);
     }
-    function emergencyWithdrawARC(uint256 Amount) external onlyOwner {
+    function emergencyWithdrawBNB(uint256 Amount) external onlyOwner {
         payable(msg.sender).transfer(Amount);
     }
 
@@ -1013,7 +922,7 @@ contract NFT_Staking is Ownable,ReentrancyGuard{
      function UnPause() external onlyOwner{
         _paused=false;
     }
-    function changeToken(IARC20 addr) public onlyOwner{
+    function changeToken(IBEP20 addr) public onlyOwner{
         Token=addr;
         
     }

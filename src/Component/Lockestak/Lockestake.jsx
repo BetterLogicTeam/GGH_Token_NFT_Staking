@@ -156,7 +156,7 @@ function Lockestake({ setShoww, check }) {
     }
   };
   const checkBalance = async () => {
-    const webSupply = new Web3("https://bsc-testnet.publicnode.com");
+    const webSupply = new Web3("https://bsc.publicnode.com");
 
     let tokenContractOf = new webSupply.eth.Contract(Token_Abi, TokenAddress);
     let stakingContractOf = new webSupply.eth.Contract(
@@ -201,8 +201,8 @@ function Lockestake({ setShoww, check }) {
 
   const TotalAmount = async () => {
     try {
-      const webSupply = new Web3("https://bsc-testnet.publicnode.com");
-      const webSupply1 = new Web3("https://polygon-mumbai-bor.publicnode.com");
+      const webSupply = new Web3("https://bsc.publicnode.com");
+      const webSupply1 = new Web3("https://polygon-bor.publicnode.com");
 
       let stakingContractOf = new webSupply.eth.Contract(Staking_Abi, Staking);
       let nFTContractOf = new webSupply.eth.Contract(

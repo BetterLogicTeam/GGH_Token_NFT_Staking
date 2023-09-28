@@ -86,7 +86,7 @@ function Lockestake({ setShoww, check }) {
                 );
               }
 
-              let stakingValue = getValue*1000000000000000000;
+              let stakingValue = web3.utils.toWei(getValue);
 
               console.log("stakingValue", stakingValue);
 
@@ -166,7 +166,7 @@ function Lockestake({ setShoww, check }) {
 
     if (acc != null) {
       let blanceOf = await tokenContractOf.methods.balanceOf(acc).call();
-      blanceOf=blanceOf/1000000000000000000;
+      blanceOf=web3.utils.fromWei(blanceOf);
 
 
       // blanceOf = blanceOf.slice(0, 12);
@@ -246,7 +246,7 @@ function Lockestake({ setShoww, check }) {
 
         for (let i = 0; i < UserNFTs_Length; i++) {
           let nftLink = await axios.get(
-            `https://greengrasshopper.mypinata.cloud/ipfs/Qmd6opNhSJS7TD5gUUhkf4nKz5ogGiTqaLC1B3CReZaAGN/Green%20Grass%20Hopper/${UserNFTs[i]
+            `https://greengrasshopper.mypinata.cloud/ipfs/Qmd6opNhSJS7TD5gUUhkf4nKz5ogGiTqaLC1B3CReZaAGN/Green%20Grass%20Hopper${UserNFTs[i]
             }.jpg`
           );
           let isNFTStaked = await stakingContractOf.methods.isNFTStaked(UserNFTs[i]).call();
@@ -298,26 +298,18 @@ function Lockestake({ setShoww, check }) {
       let length_MFT= await arryNew.length
       length_MFT=Number(length_MFT)
       console.log("length_MFT",length_MFT);
-      if(length_MFT>24 && length_MFT<50){
+      if(length_MFT==1){
         setgrtAPY_value({days30:15,days90:21,days180:27,days360:33})
 
-      }else if(length_MFT>49 && length_MFT<75){
+      }else if(length_MFT>1 && length_MFT<5){
         setgrtAPY_value({days30:18,days90:24,days180:30,days360:36})
 
-      }else if(length_MFT>74 && length_MFT<100){
+      }else if(length_MFT>4 && length_MFT<10){
         setgrtAPY_value({days30:21,days90:27,days180:33,days360:39})
 
-      }else if(length_MFT>99 && length_MFT<150){
+      }else if(length_MFT==10){
         setgrtAPY_value({days30:24,days90:30,days180:36,days360:42})
 
-      }else if(length_MFT>149 && length_MFT<200){
-        setgrtAPY_value({days30:27,days90:33,days180:39,days360:45})
-
-      }else if(length_MFT>199 && length_MFT<500){
-        setgrtAPY_value({days30:33,days90:39,days180:45,days360:51})
-
-      }else if(length_MFT>500){
-        setgrtAPY_value({days30:36,days90:42,days180:48,days360:54})
       }else{
         setgrtAPY_value({days30:0,days90:0,days180:0,days360:0})
 

@@ -20,12 +20,12 @@ function Head({ handleClosee, handleShoww, setShoww, showw }) {
             </Nav>
             <Nav className="navRescenter">
               <Link to="/" style={{textDecoration:"none"}}>
-                <Nav.Link href="/" className="mt-2 text-white">
-                  Token STAKING
+                <Nav.Link href="/" className="mt-2 fw_bolod text-white">
+                  TOKEN STAKING
                 </Nav.Link>
               </Link>
               <Link to="/Nft_Staking" style={{textDecoration:"none"}}>
-                <Nav.Link href="/Nft_Staking" className="mt-2 text-white">
+                <Nav.Link href="/Nft_Staking" className="mt-2 fw_bolod text-white">
                   NFT STAKING
                 </Nav.Link>
               </Link>

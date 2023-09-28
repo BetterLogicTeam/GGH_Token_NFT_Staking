@@ -66,7 +66,7 @@ function Canvas_contant({setShoww,showw, name, ...props  }) {
         className="h-100 canvas_back"
       >
         <Offcanvas.Header style={{borderBottom:'1px solid white'}}>
-          <Offcanvas.Title className="text-start text-white  " >
+          <Offcanvas.Title className="text-start text-white fw_bolod  " >
             Connect Wallet
           </Offcanvas.Title>
         </Offcanvas.Header>
